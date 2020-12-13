@@ -10,11 +10,15 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.example.game1.object.Enemy;
+import com.example.game1.object.Player;
+
 
 //Game renders all objects onto screen and updates the screen with changes
 class Game extends SurfaceView implements SurfaceHolder.Callback {
     private final Player player;
     private final Joystick joystick;
+    private final Enemy enemy;
     private GameLoop gameLoop;
 
     public Game(Context context) {
@@ -26,8 +30,8 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
 
        //Initialize game objects
         joystick = new Joystick(275,500,70,40);
-       player = new Player(getContext(),500,500,30);
-
+        player = new Player(getContext(), joystick,500,500,30);
+        enemy = new Enemy(getContext(), player,600,800,30);
         setFocusable(true);
     }
 
@@ -80,6 +84,7 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         player.draw(canvas);
         joystick.draw(canvas);
+        enemy.draw(canvas);
     }
 
     public void drawUPS(Canvas canvas){
@@ -100,7 +105,8 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        player.update(joystick);
+        player.update();
         joystick.update();
+        enemy.update();
     }
 }
