@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 //Game renders all objects onto screen and updates the screen with changes
 class Game extends SurfaceView implements SurfaceHolder.Callback {
     private final Player player;
+    private final Joystick joystick;
     private GameLoop gameLoop;
 
     public Game(Context context) {
@@ -23,7 +24,8 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
         this.gameLoop = new GameLoop(this,surfaceHolder);
 
-       //Initialize player
+       //Initialize game objects
+        joystick = new Joystick(275,500,70,40);
        player = new Player(getContext(),500,500,30);
 
         setFocusable(true);
@@ -34,8 +36,19 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
         //handle touch event actions
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
+                if(joystick.isPressed((double)event.getX(),(double)event.getY()))
+                {
+                    joystick.setIsPressed(true);
+                }
+                return true;
             case MotionEvent.ACTION_MOVE:
-                player.setPosition((double)event.getX(),(double)event.getY());
+                if(joystick.getIsPressed()){
+                    joystick.setActuator((double)event.getX(),(double)event.getY());
+                }
+                return true;
+            case MotionEvent.ACTION_UP:
+                joystick.setIsPressed(false);
+                joystick.resetActuator();
                 return true;
         }
 
@@ -66,6 +79,7 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
         drawFPS(canvas);
 
         player.draw(canvas);
+        joystick.draw(canvas);
     }
 
     public void drawUPS(Canvas canvas){
@@ -86,6 +100,7 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        player.update();
+        player.update(joystick);
+        joystick.update();
     }
 }
