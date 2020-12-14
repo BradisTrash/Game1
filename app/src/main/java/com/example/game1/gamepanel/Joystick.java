@@ -1,8 +1,10 @@
-package com.example.game1;
+package com.example.game1.gamepanel;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+
+import com.example.game1.Utils;
 
 
 public class Joystick {
@@ -68,9 +70,8 @@ public class Joystick {
     }
 
     public boolean isPressed(double x, double y) {
-        joystickCenterToTouchDistance = Math.sqrt(
-                Math.pow(outerCircleCenterPositionX - x,2) +
-                Math.pow(outerCircleCenterPositionY - y,2)
+        joystickCenterToTouchDistance = Utils.getDistanceBetweenPoints(outerCircleCenterPositionX,
+                outerCircleCenterPositionY,x,y
         );
         return joystickCenterToTouchDistance < outerCircleRadius;
     }
@@ -85,7 +86,7 @@ public class Joystick {
     public void setActuator(double x, double y) {
         double deltaX = x - outerCircleCenterPositionX;
         double deltaY = y - outerCircleCenterPositionY;
-        double deltaDistance = Math.sqrt(Math.pow(deltaX,2) + Math.pow(deltaY,2));
+        double deltaDistance = Utils.getDistanceBetweenPoints(0,0,deltaX,deltaY);
 
         if(deltaDistance < outerCircleRadius){
             actuatorX = deltaX/outerCircleRadius;

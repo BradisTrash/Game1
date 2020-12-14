@@ -10,5 +10,9 @@
     <color name="magenta">#FF09FF</color>
     <color name="player">#FF0000</color>
     <color name="enemy">#EFEFEF</color>
+    <color name="projectile">#E7E7</color>
+    <color name="healthBarBorder">#757575</color>
+    <color name="healthBarHealth">#FF0000</color>
+    <color name="gameOver">#E71000</color>
 
 </resources>
