@@ -97,4 +97,14 @@ public class GameLoop extends Thread{
             }
         }
     }
+
+    public void stopLoop() {
+        isRunning = false;
+        //wait for thread to join
+        try{
+            join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

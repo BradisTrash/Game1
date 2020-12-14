@@ -1,8 +1,10 @@
 package com.example.game1;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -35,6 +37,7 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
     private int numberOfProjectiles = 0;
     private GameOver gameOver;
     private Performance performance;
+    private GameDisplay gameDisplay;
 
     public Game(Context context) {
         super(context);
@@ -50,6 +53,10 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
        //Initialize game objects
         player = new Player(getContext(), joystick,500,500,30);
 
+        //Initialize game display and center on player
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        gameDisplay = new GameDisplay(displayMetrics.widthPixels,displayMetrics.heightPixels,player);
         setFocusable(true);
     }
 
@@ -116,13 +123,13 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
 
         //Draw game objects
-        player.draw(canvas);
+        player.draw(canvas,gameDisplay);
 
         for(Enemy enemy: enemyList){
-            enemy.draw(canvas);
+            enemy.draw(canvas, gameDisplay);
         }
         for(Projectile projectile: projectileList){
-            projectile.draw(canvas);
+            projectile.draw(canvas, gameDisplay);
         }
         //Draw game panels
         joystick.draw(canvas);
@@ -183,5 +190,10 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
+        gameDisplay.update();
+    }
+
+    public void pause() {
+        gameLoop.stopLoop();
     }
 }

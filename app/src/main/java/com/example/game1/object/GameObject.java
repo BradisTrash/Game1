@@ -2,6 +2,8 @@ package com.example.game1.object;
 
 import android.graphics.Canvas;
 
+import com.example.game1.GameDisplay;
+
 
 //GameObject is the super class of all game objects in the game. Enemy, player, and whatever else.
 
@@ -24,7 +26,7 @@ public abstract class GameObject {
                 Math.pow(obj2.getPositionY() - obj1.getPositionY(),2));
     }
 
-    public abstract void draw(Canvas canvas);
+    public abstract void draw(Canvas canvas, GameDisplay gameDisplay);
     public abstract void update();
 
     public double getPositionX(){
