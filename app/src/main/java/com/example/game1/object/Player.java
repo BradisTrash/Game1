@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat;
 import com.example.game1.GameLoop;
 import com.example.game1.Joystick;
 import com.example.game1.R;
-import com.example.game1.object.Circle;
 
 //Player is the main character. The user controls with touch joystick.
 //This class extends Circle which can later be changed to whatever the sprite will be.
